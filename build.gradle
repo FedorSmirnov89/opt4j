@@ -41,7 +41,8 @@ def descriptions = [
 	'opt4j-optimizers' : 'A set of optimizers for Opt4J',
 	'opt4j-satdecoding' : 'The SAT decoding module for Opt4J', 
 	'opt4j-tutorial' : 'The tutorial classes for Opt4J',
-	'opt4j-viewer' : 'The viewer module for Opt4J'
+	'opt4j-viewer' : 'The viewer module for Opt4J',
+	'opt4j-python' : 'The module for the usage of python libraries'
 ]
 
 subprojects {
@@ -156,6 +157,7 @@ dependencies {
 	runtime project(':opt4j-benchmarks')
 	runtime project(':opt4j-viewer')
 	runtime project(':opt4j-tutorial')
+	runtime project(':opt4j-python')
 }
 
 jar {

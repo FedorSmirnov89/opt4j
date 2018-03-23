@@ -1,0 +1,14 @@
+/.gradle/
+bin
+build
+
+# Temporary files created when working on Linux
+*~
+
+# Files created when compiling python
+*.pyc
+
+# Eclipse files are created with `gradlew eclipse`
+.classpath
+.project
+.settings
