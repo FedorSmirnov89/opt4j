@@ -1,6 +1,7 @@
 /.gradle/
 bin
 build
+/python_code/.idea/
 
 # Temporary files created when working on Linux
 *~
