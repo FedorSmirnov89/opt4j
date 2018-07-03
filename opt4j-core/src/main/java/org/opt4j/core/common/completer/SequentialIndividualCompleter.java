@@ -23,6 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.opt4j.core.Genotype;
 import org.opt4j.core.Individual;
 import org.opt4j.core.Individual.State;
@@ -33,6 +35,8 @@ import org.opt4j.core.optimizer.IndividualCompleter;
 import org.opt4j.core.optimizer.TerminationException;
 import org.opt4j.core.problem.Decoder;
 import org.opt4j.core.problem.Evaluator;
+import org.perf4j.StopWatch;
+import org.perf4j.log4j.Log4JStopWatch;
 
 import com.google.inject.Inject;
 
@@ -54,6 +58,8 @@ public class SequentialIndividualCompleter implements IndividualCompleter {
 	protected final Decoder<Genotype, Object> decoder;
 	protected final Evaluator<Object> evaluator;
 	protected final Control control;
+	
+	protected static final Log logger = LogFactory.getLog(SequentialIndividualCompleter.class);
 
 	/**
 	 * Constructs a {@link SequentialIndividualCompleter}.
@@ -84,9 +90,15 @@ public class SequentialIndividualCompleter implements IndividualCompleter {
 		for (Individual individual : iterable) {
 			if (!individual.isEvaluated()) {
 				control.checkpoint();
+				StopWatch watchDecode = new Log4JStopWatch("decode");
 				decode(individual);
+				logger.info("decode");
+				watchDecode.stop();
 				control.checkpoint();
+				StopWatch watchEvaluate = new Log4JStopWatch("evaluate");
 				evaluate(individual);
+				logger.info("evaluate");
+				watchEvaluate.stop();
 				control.checkpoint();
 			}
 		}
