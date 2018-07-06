@@ -23,8 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.opt4j.core.Genotype;
 import org.opt4j.core.Individual;
 import org.opt4j.core.Individual.State;
@@ -58,9 +57,9 @@ public class SequentialIndividualCompleter implements IndividualCompleter {
 	protected final Decoder<Genotype, Object> decoder;
 	protected final Evaluator<Object> evaluator;
 	protected final Control control;
+	protected final StopWatch stopWatch;
 	
-	protected static final Log logger = LogFactory.getLog(SequentialIndividualCompleter.class);
-
+	
 	/**
 	 * Constructs a {@link SequentialIndividualCompleter}.
 	 * 
@@ -78,6 +77,7 @@ public class SequentialIndividualCompleter implements IndividualCompleter {
 		this.control = control;
 		this.decoder = decoder;
 		this.evaluator = evaluator;
+		this.stopWatch = new Log4JStopWatch(Logger.getLogger("org.perf4j.TimingLogger"));
 	}
 
 	/*
@@ -90,15 +90,13 @@ public class SequentialIndividualCompleter implements IndividualCompleter {
 		for (Individual individual : iterable) {
 			if (!individual.isEvaluated()) {
 				control.checkpoint();
-				StopWatch watchDecode = new Log4JStopWatch("decode");
+				stopWatch.start("decoding");
 				decode(individual);
-				logger.info("decode");
-				watchDecode.stop();
+				stopWatch.stop("decoding");
 				control.checkpoint();
-				StopWatch watchEvaluate = new Log4JStopWatch("evaluate");
+				stopWatch.start("evaluation");
 				evaluate(individual);
-				logger.info("evaluate");
-				watchEvaluate.stop();
+				stopWatch.stop("evaluation");
 				control.checkpoint();
 			}
 		}
