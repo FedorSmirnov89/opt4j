@@ -52,8 +52,7 @@ public class ModuleLoader {
 	/**
 	 * Constructs a {@link ModuleLoader}.
 	 * 
-	 * @param moduleRegister
-	 *            the register of all found modules
+	 * @param moduleRegister the register of all found modules
 	 */
 	public ModuleLoader(ModuleRegister moduleRegister) {
 		super();
@@ -63,8 +62,7 @@ public class ModuleLoader {
 	/**
 	 * Loads all modules from a file (as filename).
 	 * 
-	 * @param filename
-	 *            the file (as filename)
+	 * @param filename the file (as filename)
 	 * @return the modules
 	 */
 	public Collection<? extends Module> load(String filename) {
@@ -75,8 +73,7 @@ public class ModuleLoader {
 	/**
 	 * Loads all modules from a {@link File}.
 	 * 
-	 * @param file
-	 *            the input file
+	 * @param file the input file
 	 * @return a list of the modules
 	 */
 	public Collection<? extends Module> load(File file) {
@@ -104,8 +101,7 @@ public class ModuleLoader {
 	/**
 	 * Loads all modules from an XML {@link Node}.
 	 * 
-	 * @param node
-	 *            the XML node
+	 * @param node the XML node
 	 * @return a list of the modules
 	 */
 	public Collection<? extends Module> get(Node node) {
@@ -121,7 +117,7 @@ public class ModuleLoader {
 				Class<? extends Module> clazz = Class.forName(name).asSubclass(Module.class);
 				module = moduleRegister.get(clazz);
 			} catch (ClassNotFoundException e) {
-				System.err.println("Class " + name + " not found.");
+				throw new IllegalArgumentException("Class " + name + " not found.");
 			}
 
 			if (module != null) {
